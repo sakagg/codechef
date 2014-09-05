@@ -6,15 +6,17 @@
 
 using namespace std;
 
+int dp[200100][110];
+
 int main()
 {
-	int t, n, arr[200100];
+	int t, n, a[200100];
 	scanf("%d", &t);
 	while(t--)
 	{
 		scanf("%d", &n);
 		for(int i=0; i<n; i++)
-			scanf("%d", arr+i);
+			scanf("%d", a+i);
 	}
 	return 0;
 }
