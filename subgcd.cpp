@@ -14,18 +14,35 @@ typedef vector<int> VI;
 #define f first
 #define s second
 
+int gcd(int a, int b)
+{
+	int tmp;
+	while(b)
+	{
+		tmp = a%b;
+		a = b;
+		b = tmp;
+	}
+	return a;
+}
+
 int main()
 {
-	int T = 100;
-	cout<<T<<endl;
-	srand(time(NULL));
+	int T, g;
+	int n, a[100100];
+	scanf("%d", &T);
 	while(T--)
 	{
-		int n = rand()%100 + 10;
-		cout<<n<<endl;
+		g = 0;
+		scanf("%d", &n);
 		for(int i=0; i<n; i++)
-			cout<<1+rand()%100<<" ";
-		cout<<endl;
+			scanf("%d", a+i);
+		for(int i=0; i<n; i++)
+			g = gcd(a[i], g);
+		if(g==1)
+			cout<<n<<endl;
+		else
+			cout<<"-1\n";
 	}
 	return 0;
 }
