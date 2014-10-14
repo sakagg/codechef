@@ -16,12 +16,12 @@ typedef vector<int> VI;
 
 int main()
 {
-	int T = 100;
+	int T = 10;
 	cout<<T<<endl;
 	srand(time(NULL));
 	while(T--)
 	{
-		int n = rand()%100 + 10;
+		int n = rand()%10000 + 10;
 		cout<<n<<endl;
 		for(int i=0; i<n; i++)
 			cout<<1+rand()%100<<" ";

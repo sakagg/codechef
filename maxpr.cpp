@@ -3,26 +3,26 @@
 
 using namespace std;
 
-long long expo(int ax, int b)
+long long expo(long long a, int b)
 {
-	long long ans = 1, a=ax;
+	long long ans = 1;
 	while(b)
 	{
 		if(b&1)
-			ans*=a;
+			ans = (ans*a)%mod;
 		a = (a*a)%mod;
 		b>>=1;
 	}
 	return ans;
 }
-
+/*
 void print_array(vector<long long> &a)
 {
 	for(int i=0; i<a.size(); i++)
 		cout<<a[i]<<" ";
 	cout<<endl;
 }
-
+*/
 int main()
 {
 	int t, n, a[200100];
@@ -34,14 +34,15 @@ int main()
 		tot = n+1;
 		for(int i=0; i<n; i++)
 			scanf("%d", a+i);
-		for(int d=-100; d<=100; d++)
+		for(int d=-99; d<=99; d++)
 		{
-			vector<long long> dp(110, 0);
+			long long dp[101] = {0};
 			for(int i=0; i<n; i++)
 			{
 				if(a[i]-d <= 100 && a[i]-d >=1)
 					dp[a[i]] += dp[a[i]-d];
 				dp[a[i]]++;
+				dp[a[i]] %= mod;
 			}
 			for(int i=1; i<101; i++)
 				tot = (tot+dp[i])%mod;
