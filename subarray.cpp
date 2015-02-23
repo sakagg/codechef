@@ -7,7 +7,6 @@ typedef unsigned long long ULL;
 typedef vector<int> VI;
 typedef vector<LL> VLL;
 typedef pair<int, int> PI;
-typedef pair<char, LL> P;
 
 #define SI(x) scanf("%d", &x)
 #define SLL(x) scanf("%lld", &x)
@@ -43,7 +42,11 @@ int getInt(char c)
 	return -1;
 }
 
-LL st[100100];
+char a[100100];
+int open[100100];
+LL b[100100], dp[100100];
+
+stack<int> s;	
 
 int main()
 {
@@ -53,48 +56,40 @@ int main()
 	{
 		int n;
 		SI(n);
-		memset(st, 0, (n+5)*sizeof(LL));
-		char a[n];
-		int b[n];
-		LL mx = 0;
-		scanf("%s", a);
-		for(int i=0; i<n; i++)
-			SI(b[i]);
-		stack<P> s;
-		int depth = -1;
-		for(int i=0; a[i]; i++)
+		memset(open, -1, (n+2)*sizeof(int));
+		scanf("%s", a+1);
+		b[0] = 0;
+		for(int i=1; i<=n; i++)
+		{
+			SLL(b[i]);
+			b[i] += b[i-1];
+		}
+		s = stack<int>();
+		for(int i=1; i<=n; i++)
 		{
 			if(isopening(a[i]))
+				s.push(i);
+			else if(!s.empty())
 			{
-				depth++;
-				st[depth+1] = 0;
-				s.push(mp(a[i], b[i]));
-			}
-			else if(s.empty())
-			{
-				depth = -1;
-				st[0] = 0;
-			}
-			else
-			{
-				P c = s.top(); s.pop();
-				if(getInt(c.f) == getInt(a[i]))
-				{
-					st[depth] += c.s + b[i] + st[depth+1];
-					mx = max(mx, st[depth]);
-					depth--;
-					if(depth == -1 && st[0] < 0)
-						st[0] = 0;
-				}
+				int ind = s.top(); s.pop();
+				if(getInt(a[ind]) == getInt(a[i]))
+					open[i] = ind;
 				else
-				{
 					while(!s.empty())
 						s.pop();
-					depth = -1;
-					st[0] = 0;
-				}
 			}
 		}
+		LL mx = 0;
+		dp[0] = 0;
+		for(int i=1; i<=n; i++)
+			if(open[i] != -1)
+			{
+				dp[i] = max(0LL, dp[open[i]-1]);
+				dp[i] += (b[i] - b[open[i]-1]);
+				mx = max(mx, dp[i]);
+			}
+			else
+				dp[i] = 0;
 		printf("%lld\n", mx);
 	}
 	return 0;
